@@ -1,0 +1,100 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  {{>links}}                
+    </head>
+<body> 
+     {{>nav}}
+           <!-- mian_header -->
+                   <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-md-4 col-12 mx-auto   d-flex justify-content-center flex-column">
+                             
+                                <div class="col-12    mt-4 justify-content-center flex-column " >
+                                           <form action="" class="d-flex flex-row bg-dark p-1" style="border-radius: 0.7rem;" >
+                                           
+                                             <input class="form-control bg-dark text-white" type="text" id="cityName"  value="Pune" style="outline:none;"> 
+                                              
+                                             <input type="submit" value="search" id="submitBtn" class=" btn btn-primary ">
+                                           </form>
+                                </div>
+                               <div class="tempImformation   bg-dark text-white p-2 " style="margin-top: 4rem ; border-radius: 0.8rem;">
+                                                 <div class="top_layer p-2 d-flex justify-content-around align-items-center text-white" style="background-color:rgb(87, 81, 81); border-radius:0.8rem ;">
+                                                       <p id="day">Tuesday</p>
+                                                       <p > <span id="today_date">13</span>  <span id="month">OCT</span></p>
+                                                 </div>
+                                                 <div class="main_layer">
+                                                       <p  id="display" class="mt-2"> <span id="city_Name">Pune </span>  <span id="country">IN</span> </p>  
+                                                       <div class="d-flex justify-content-around align-items-center">
+                                                         <p style="font-size: 3rem; font-weight: 700;  "><span id="temp">30</span> &deg; C  </p>
+                                                         <span id="cloud">  <i class="fa-solid  fa-cloud fa-bounce fa-8x" style="color: #e0e6f1; "></i></span>
+                                                       </div>
+                                                       
+                                                       
+                                                 </div>
+                                 </div>
+                         </div>
+                     </div>
+                  </div>
+           
+      
+                  <script  >
+
+            const sumbit = document.getElementById("submitBtn");
+            const city=document.getElementById('cityName');
+             const city_show=document.getElementById('city_Name')
+            const temp = document.getElementById('temp');
+             const country = document.getElementById('country');
+            const days = document.getElementById('day');
+             const dates = document.getElementById('today_date');
+             const months = document.getElementById('month');
+              const display= document.getElementById('display');
+           
+           const d = new Date();
+              let day = d.getDay();
+              let date =d.getDate();
+              let monthjee = d.getMonth();
+              const weakly=[];
+               weakly[0]="Monday";
+               weakly[1]="Tuesday";
+                weakly[2]="Wednesday";
+                 weakly[3]="Thursday"; 
+                weakly[4]="Friday";
+                 weakly[5]="Saturday";
+                 weakly[6]="Saturday";
+
+                 let month = ['JAN' , 'FEB' , 'MAR' , 'APR' , 'MAY' , 'JUNE' , 'JULY' , 'AUG' , 'SEP' , 'OCT' , 'NOV' , 'DEC']
+                  days.innerHTML=weakly[day-1];
+                 dates.innerHTML=date;
+                 months.innerHTML=month[monthjee]
+           const getInfo = async(event) =>{
+                 event.preventDefault();
+                  let cityVal = city.value;
+                   if(cityVal==="")
+                   {
+                        alert("Enter city Name first")
+                   }
+                  else {
+                    try {
+                 const url= `https://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=f77e7afd95b57b889114522b6d277ad1`
+                 const response = await fetch(url) ;
+                  const data = await response.json();
+                                  let tempC=data.main.temp ;
+                                   console.log(data);
+                                 city_show.innerHTML=data.name;
+                                 temp.innerHTML=tempC;
+                                 country.innerHTML=data.sys.country;
+
+                         }
+                    catch {
+                        display.innerHTML="Enter correct data;"
+                    }
+               }
+           }
+          sumbit.addEventListener('click' , getInfo);
+          
+        </script>            
+        
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
